@@ -22,49 +22,57 @@ void Funcionario::setSalario(double valor)
     m_salario = valor;
 }
 
+bool Funcionario::trySetSalario(std::string valor)
+{
+    double salario = 0.0;
+    try
+    {
+        salario = std::stod(valor);
+    }
+    catch (std::exception &ia)
+    {
+        std::cout << "O salário precisa ser um valor numérico!" << std::endl;
+        return false;
+    };
+    if (salario < MIN_SALARIO)
+    {
+        std::cout << "O salário não pode ser inferior ao salário mínimo (R$ " << MIN_SALARIO << ")!!!\n";
+        return false;
+    }
+    else
+    {
+        m_salario = salario;
+    };
+    return true;
+}
+
 bool Funcionario::operator==(Funcionario &outro)
 {
     return (m_nome == outro.getNome());
 }
 
-std::istream &operator>>(std::istream &i, Funcionario &func)
+std::istream &operator>>(std::istream &is, Funcionario &func)
 {
     do
     {
         std::cout << "\nDigite o nome do novo Funcionário: ";
-        i >> func.m_nome;
+        is >> func.m_nome;
         if (func.m_nome == "" || func.m_nome == " ")
         {
             std::cout << "Estes valores não são válidos!";
         };
     } while (func.m_nome == "" || func.m_nome == " ");
 
-    do
+    bool isGoodWage = false;
+    while (!isGoodWage)
     {
         std::cout << "Digite o salário de [" << func.m_nome << "] : ";
         std::string valor;
-        i >> valor;
-        bool isGoodStr = true;
-        try
-        {
-            func.m_salario = std::stod(valor);
-        }
-        catch (std::exception &ia)
-        {
-            std::cout << "Estes valores não são válidos!\n";
-            isGoodStr = false;
-        };
-        if (isGoodStr)
-        {
-            if (func.m_salario < MIN_SALARIO)
-            {
-                std::cout << "O salário não pode ser inferior ao salário mínimo (R$ " << MIN_SALARIO << ")!!!\n";
-            };
-        }
+        is >> valor;
+        isGoodWage = func.trySetSalario(valor);
+    };
 
-    } while (func.m_salario < MIN_SALARIO);
-
-    return i;
+    return is;
 }
 
 std::ostream &operator<<(std::ostream &os, Funcionario &func)
@@ -75,7 +83,7 @@ std::ostream &operator<<(std::ostream &os, Funcionario &func)
     os << std::left << std::setw(15) << func.m_nome;
     // o salário será formatado com duas casas decimais
     os << " [R$ " << std::setprecision(2) << std::fixed;
-    // será ajustado a direito com espaçamento de 8 caracteres
+    // será ajustado a direita com espaçamento de 8 caracteres
     os << std::right << std::setw(8) << func.m_salario << "]" << std::endl;
     return os;
 }
