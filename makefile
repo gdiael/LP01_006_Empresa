@@ -56,3 +56,13 @@ debug: db$(PROG1)
 
 run: all
 	$(PROG1)
+
+runwin: $(PROG1)
+	chcp 65001
+	$(PROG1)
+
+debugwin: db$(PROG1)
+
+cleanwin: 
+	del /q bin\*
+	del /q build\*

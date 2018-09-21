@@ -4,28 +4,46 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Compilar Empresa",
+            "label": "Make",
             "type": "shell",
-            "command": "g++",
-            "args": [
-                "-g",
-                "-Wall",
-                "-pedantic",
-                "-std=c++11",
-                "-I./include",
-                "-o",
-                "./bin/Empresa.exe",
-                "./src/fucionario.cpp",
-                "./src/empresa.cpp",
-                "./src/main.cpp"
-            ],
+            "command":"mingw32-make.exe",
+            "args": ["runwin"],
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": [
-                "$gcc"
-            ]
+            // Use the standard less compilation problem matcher.
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        {
+            "label": "Makedebug",
+            "type": "shell",
+            "command":"mingw32-make.exe",
+            "args": ["debugwin"],
+            // Use the standard less compilation problem matcher.
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
         }
     ]
 }
