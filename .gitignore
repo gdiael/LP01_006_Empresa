@@ -1,0 +1,5 @@
+bin/Empresa
+build/main.o
+build/funcionario.o
+build/empresa.o
+.vscode/settings.json
