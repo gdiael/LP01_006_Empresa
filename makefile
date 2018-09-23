@@ -57,11 +57,14 @@ debug: db$(PROG1)
 run: all
 	$(PROG1)
 
+# propriedades para serem usadas no windows com o MinGW com gcc e gdb
+# não usar o comando Make e sim o executável: mingw32-make.exe
+
 runwin: $(PROG1)
 	chcp 65001
 	$(PROG1)
 
-debugwin: db$(PROG1)
+debugwin: cleanwin db$(PROG1)
 
 cleanwin: 
 	del /q bin\*

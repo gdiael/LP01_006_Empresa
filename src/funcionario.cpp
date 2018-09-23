@@ -1,11 +1,24 @@
 #include "funcionario.h"
-#include <iomanip>
 
 Funcionario::Funcionario(std::string nome, double salario) : m_nome(nome), m_salario(salario) {}
 
 Funcionario::Funcionario() : m_nome(""), m_salario(0.0) {}
 
 Funcionario::~Funcionario() {}
+
+std::string Funcionario::askForName(std::istream &is, std::string mensagem)
+{
+    std::string nome;
+    std::cout << "\n" << mensagem << ": ";
+    std::getline(is, nome);
+    if (nome != "" && nome != " ")
+    {
+        return nome;
+    }else{
+        std::cout << "Estes valores não são válidos!";
+        return askForName(is, mensagem);
+    };
+}
 
 std::string Funcionario::getNome()
 {
@@ -48,27 +61,19 @@ bool Funcionario::trySetSalario(std::string valor)
 
 bool Funcionario::operator==(Funcionario &outro)
 {
-    return (m_nome == outro.getNome());
+    return (str_toupper(m_nome) == str_toupper(outro.getNome()));
 }
 
 std::istream &operator>>(std::istream &is, Funcionario &func)
 {
-    do
-    {
-        std::cout << "\nDigite o nome do novo Funcionário: ";
-        is >> func.m_nome;
-        if (func.m_nome == "" || func.m_nome == " ")
-        {
-            std::cout << "Estes valores não são válidos!";
-        };
-    } while (func.m_nome == "" || func.m_nome == " ");
-
+    func.m_nome = Funcionario::askForName(is, "Digite o nome do novo Funcionário");
+    
     bool isGoodWage = false;
     while (!isGoodWage)
     {
         std::cout << "Digite o salário de [" << func.m_nome << "] : ";
         std::string valor;
-        is >> valor;
+        std::getline(is, valor);
         isGoodWage = func.trySetSalario(valor);
     };
 
@@ -80,10 +85,17 @@ std::ostream &operator<<(std::ostream &os, Funcionario &func)
     // aqui serão usados manipuladores para formatar a saída
     // o nome do funcionário será ajustado a esquerda, e terá um espaçamento de 15
     // caracteres antes do salário
-    os << std::left << std::setw(15) << func.m_nome;
+    os << std::left << std::setw(18) << func.m_nome;
     // o salário será formatado com duas casas decimais
     os << " [R$ " << std::setprecision(2) << std::fixed;
     // será ajustado a direita com espaçamento de 8 caracteres
     os << std::right << std::setw(8) << func.m_salario << "]" << std::endl;
     return os;
+}
+
+std::string str_toupper(std::string s) {
+    std::transform(s.begin(), s.end(), s.begin(), 
+      [](unsigned char c){ return std::toupper(c); }
+    );
+    return s;
 }
