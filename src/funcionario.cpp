@@ -9,12 +9,15 @@ Funcionario::~Funcionario() {}
 std::string Funcionario::askForName(std::istream &is, std::string mensagem)
 {
     std::string nome;
-    std::cout << "\n" << mensagem << ": ";
+    std::cout << "\n"
+              << mensagem << ": ";
     std::getline(is, nome);
     if (nome != "" && nome != " ")
     {
         return nome;
-    }else{
+    }
+    else
+    {
         std::cout << "Estes valores não são válidos!";
         return askForName(is, mensagem);
     };
@@ -30,9 +33,12 @@ double Funcionario::getSalario()
     return m_salario;
 }
 
-void Funcionario::setSalario(double valor)
+void Funcionario::giveAumentoSalario(double fatorDeAumento)
 {
-    m_salario = valor;
+    // o valor salvo no membro m_salairo do funcionario será multiplicado por
+    // [1.0 + fator], ou seja, se se o fator for de 0.5 [aumento de 50%]
+    // o salário será multiplicado por 1.5
+    m_salario *= (1.0 + fatorDeAumento);
 }
 
 bool Funcionario::trySetSalario(std::string valor)
@@ -67,7 +73,7 @@ bool Funcionario::operator==(Funcionario &outro)
 std::istream &operator>>(std::istream &is, Funcionario &func)
 {
     func.m_nome = Funcionario::askForName(is, "Digite o nome do novo Funcionário");
-    
+
     bool isGoodWage = false;
     while (!isGoodWage)
     {
@@ -93,9 +99,9 @@ std::ostream &operator<<(std::ostream &os, Funcionario &func)
     return os;
 }
 
-std::string str_toupper(std::string s) {
-    std::transform(s.begin(), s.end(), s.begin(), 
-      [](unsigned char c){ return std::toupper(c); }
-    );
+std::string str_toupper(std::string s)
+{
+    std::transform(s.begin(), s.end(), s.begin(),
+                   [](unsigned char c) { return std::toupper(c); });
     return s;
 }

@@ -3,7 +3,7 @@
 # Aula de LP1 2018.2
 # 20/09/2018
 # Clonagem atual para teste :
-# 				git clone https://github.com/gdiael/LP01_003_corridaSapos.git
+# 				git clone https://github.com/gdiael/LP01_006_Empresa.git
 #
 # Gdiael Souto Barros
 #
